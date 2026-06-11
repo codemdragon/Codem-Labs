@@ -4,26 +4,1127 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cyntch - Software & AI Agency Template</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- Google Fonts: Plus Jakarta Sans for modern SaaS look -->
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- CSS RESET & SYSTEM VARIABLES --- */
+    :root {
+      --bg-primary: #080b0d;
+      --bg-secondary: #0c0f12;
+      --bg-card: rgba(13, 18, 22, 0.6);
+      --border-color: rgba(255, 255, 255, 0.06);
+      --text-primary: #ffffff;
+      --text-secondary: #8a959d;
+      --accent-blue: #3b82f6;
+      --accent-purple: #6366f1;
+      --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      --glass-glow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --transition-speed: 0.4s;
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* --- AMBIENT GLOW SYSTEM --- */
+    .glow-bg {
+      position: absolute;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(140px);
+      opacity: 0.1;
+      z-index: 0;
+    }
+    .glow-1 {
+      top: 5%;
+      left: -10%;
+      background: var(--accent-purple);
+    }
+    .glow-2 {
+      top: 40%;
+      right: -10%;
+      background: var(--accent-blue);
+    }
+    .glow-3 {
+      bottom: 10%;
+      left: 15%;
+      background: var(--accent-purple);
+    }
+
+    /* --- MAIN UTILITIES --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* --- BUTTONS --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition-speed) var(--easing);
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.03);
+      color: #ffffff;
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* --- STAGGERED SCROLL REVEALS --- */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.9s var(--easing), transform 0.9s var(--easing);
+    }
+
+    .scroll-reveal.reveal-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 100ms; }
+    .delay-2 { transition-delay: 200ms; }
+    .delay-3 { transition-delay: 300ms; }
+
+    /* --- BADGES --- */
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.08);
+      padding: 6px 14px;
+      border-radius: 30px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      border: 1px solid rgba(59, 130, 246, 0.15);
+    }
+
+    /* --- NAVIGATION --- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(8, 11, 13, 0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: 0.5px;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-speed);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 1001;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: #ffffff;
+      transition: all var(--transition-speed) var(--easing);
+    }
+
+    /* Mobile active transitions */
+    .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: var(--bg-primary);
+      padding: 120px 24px 24px;
+      z-index: 999;
+      flex-direction: column;
+      gap: 28px;
+      transform: translateX(100%);
+      transition: transform var(--transition-speed) var(--easing);
+    }
+
+    .mobile-menu.active {
+      display: flex;
+      transform: translateX(0);
+    }
+
+    .mobile-menu a {
+      font-size: 22px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-section {
+      padding-top: 160px;
+      padding-bottom: 80px;
+      position: relative;
+      text-align: center;
+    }
+
+    .ticker-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.015);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 0;
+      margin-bottom: 60px;
+    }
+
+    .ticker {
+      display: flex;
+      width: max-content;
+      animation: marquee-scroll 28s linear infinite;
+    }
+
+    .ticker-item {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @keyframes marquee-scroll {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+
+    .hero-content {
+      max-width: 860px;
+    }
+
+    .hero-badge {
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-bottom: 16px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-title {
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      letter-spacing: -2px;
+    }
+
+    .hero-subtitle {
+      color: var(--text-secondary);
+      font-size: 19px;
+      margin-bottom: 44px;
+      line-height: 1.6;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 64px;
+    }
+
+    /* Social Proof Group */
+    .social-proof {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      padding: 14px 28px;
+      border-radius: 60px;
+      text-align: left;
+      backdrop-filter: blur(12px);
+    }
+
+    .avatar-group {
+      display: flex;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--bg-primary);
+      margin-right: -12px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .proof-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .proof-text strong {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .proof-text span {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    /* --- STATS IN NUMBERS --- */
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+
+    .section-description {
+      font-size: 22px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px 24px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--glass-glow);
+      transition: border-color var(--transition-speed), transform var(--transition-speed);
+    }
+
+    .stat-card:hover {
+      border-color: rgba(59, 130, 246, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .stat-card h3 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* --- SOLUTIONS SECTION WITH INTEGRATED PREVIEW CARD --- */
+    .section-title {
+      font-size: 42px;
+      font-weight: 800;
+      margin-top: 10px;
+      letter-spacing: -1.5px;
+      line-height: 1.2;
+    }
+
+    .solutions-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 48px 36px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--glass-glow);
+      transition: all var(--transition-speed) var(--easing);
+    }
+
+    .card:hover {
+      border-color: rgba(59, 130, 246, 0.4);
+      transform: translateY(-6px);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(59, 130, 246, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-blue);
+      margin-bottom: 28px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Integrated Dashboard Graphic Mockup */
+    .dashboard-graphic {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .db-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .db-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .db-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .db-dot:nth-child(1) { background: #ef4444; }
+    .db-dot:nth-child(2) { background: #f59e0b; }
+    .db-dot:nth-child(3) { background: #10b981; }
+
+    .db-body {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 24px;
+    }
+
+    .db-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .db-side-item {
+      height: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px;
+    }
+
+    .db-side-item.active {
+      background: var(--accent-gradient);
+    }
+
+    .db-content {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .db-widget {
+      border: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.01);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .db-widget-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+    }
+
+    .db-widget-bar.fill {
+      width: 75%;
+      background: var(--accent-blue);
+    }
+
+    /* --- TWO-COLUMN SPLIT SECTION --- */
+    .split-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .split-title {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      line-height: 1.2;
+      letter-spacing: -1.5px;
+    }
+
+    .split-text {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .accordion-info {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .info-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .info-number {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.08);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .info-item h4 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .info-item p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+      padding-left: 48px;
+    }
+
+    /* --- OUR SERVICES --- */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      height: 380px;
+      border-radius: 20px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 32px;
+      border: 1px solid var(--border-color);
+      transition: transform var(--transition-speed) var(--easing), border-color var(--transition-speed) var(--easing);
+      overflow: hidden;
+    }
+
+    .service-card:hover {
+      transform: scale(1.03);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .service-card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      z-index: 2;
+    }
+
+    /* --- DYNAMIC PRICING SECTION --- */
+    .pricing-toggle-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .toggle-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .toggle-label.active {
+      color: #ffffff;
+    }
+
+    .pricing-switch {
+      position: relative;
+      width: 60px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .pricing-switch-handle {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: #ffffff;
+      border-radius: 50%;
+      transition: transform var(--transition-speed) var(--easing);
+    }
+
+    .pricing-switch.yearly-active .pricing-switch-handle {
+      transform: translateX(28px);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 48px 36px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--glass-glow);
+      transition: border-color var(--transition-speed), transform var(--transition-speed);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .pricing-card.popular {
+      border-color: var(--accent-blue);
+    }
+
+    .pricing-tag {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: var(--accent-gradient);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .pricing-header h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .pricing-header h3 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .pricing-header p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .pricing-price {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .pricing-price span {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-left: 4px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .pricing-features li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pricing-features li svg {
+      color: var(--accent-blue);
+      flex-shrink: 0;
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* --- REVIEWS SECTION --- */
+    .reviews-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 40px;
+    }
+
+    .featured-review {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 56px;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+    }
+
+    .quote-icon {
+      font-size: 90px;
+      line-height: 1;
+      color: var(--accent-blue);
+      opacity: 0.15;
+      margin-bottom: -20px;
+    }
+
+    .quote-text {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 48px;
+      line-height: 1.4;
+      letter-spacing: -0.5px;
+    }
+
+    .reviewer-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .reviewer-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .reviewer-meta h4 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .reviewer-meta p {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .reviews-marquee-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow: hidden;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 16px;
+      width: max-content;
+    }
+
+    .track-left { animation: review-left 35s linear infinite; }
+    .track-right { animation: review-right 35s linear infinite; }
+
+    @keyframes review-left {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+
+    @keyframes review-right {
+      0% { transform: translate3d(-50%, 0, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+
+    .review-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      width: 320px;
+      backdrop-filter: blur(8px);
+    }
+
+    .review-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .review-card h5 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    /* --- FAQ ACCORDION --- */
+    .faq-list {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 0;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 19px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .faq-question .arrow {
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid var(--text-secondary);
+      border-bottom: 2px solid var(--text-secondary);
+      transform: rotate(45deg);
+      transition: transform var(--transition-speed) var(--easing);
+    }
+
+    .faq-item.active .arrow {
+      transform: rotate(-135deg);
+      border-color: var(--accent-blue);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-speed) var(--easing);
+    }
+
+    .faq-answer p {
+      padding-bottom: 28px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* --- CTA SECTION --- */
+    .cta-section {
+      padding: 100px 0;
+      background: var(--bg-secondary);
+      text-align: center;
+    }
+
+    .border-ticker {
+      background: transparent;
+      margin-bottom: 80px;
+    }
+
+    .fast-ticker {
+      animation: marquee-scroll 18s linear infinite;
+    }
+
+    .cta-box {
+      background: radial-gradient(circle at center, rgba(59, 130, 246, 0.12) 0%, rgba(14, 18, 21, 0) 70%);
+      padding: 80px 24px;
+    }
+
+    .cta-box h2 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 36px;
+      letter-spacing: -1.5px;
+    }
+
+    .lg-btn {
+      padding: 18px 40px;
+      font-size: 16px;
+    }
+
+    /* --- FOOTER --- */
+    .footer {
+      border-top: 1px solid var(--border-color);
+      padding-top: 80px;
+      background-color: var(--bg-primary);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 80px;
+    }
+
+    .footer-brand h2 {
+      margin-bottom: 20px;
+    }
+
+    .footer-brand p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      max-width: 340px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-links h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-speed);
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      padding: 32px 0;
+      border-top: 1px solid var(--border-color);
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .privacy-link {
+      text-decoration: none;
+      transition: color var(--transition-speed);
+    }
+
+    .privacy-link:hover {
+      color: #ffffff;
+    }
+
+    /* --- RESPONSIVE MEDIA BREAKPOINTS --- */
+    @media (max-width: 1024px) {
+      .stats-grid,
+      .services-grid,
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .reviews-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+      .hero-title {
+        font-size: 44px;
+      }
+      .split-section {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .stats-grid,
+      .cards-grid,
+      .services-grid,
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- NAVIGATION BAR -->
+  <!-- LAYERED AMBIENT GLOW BACKDROPS -->
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+  <div class="glow-bg glow-3"></div>
+
+  <!-- NAVIGATION HEADER -->
   <header class="navbar">
     <div class="nav-container">
       <a href="#" class="logo">CYNTCH</a>
       <nav class="nav-links">
         <a href="#about">About</a>
+        <a href="#solutions">Solutions</a>
         <a href="#services">Services</a>
         <a href="#pricing">Pricing</a>
-        <a href="#contact">Contact</a>
+        <a href="#faq">FAQ</a>
       </nav>
       <div class="nav-actions">
-        <a href="#" class="btn btn-primary">Get template</a>
+        <a href="https://framer.com" class="btn btn-primary nav-btn" target="_blank">
+          Get template
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
         <button class="menu-toggle" aria-label="Toggle Menu">
           <span></span>
           <span></span>
@@ -32,54 +1133,55 @@
     </div>
   </header>
 
-  <!-- MOBILE MENU DROPDOWN -->
+  <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-menu">
     <a href="#about">About</a>
+    <a href="#solutions">Solutions</a>
     <a href="#services">Services</a>
     <a href="#pricing">Pricing</a>
-    <a href="#contact">Contact</a>
-    <a href="#" class="btn btn-primary">Get template</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://framer.com" class="btn btn-primary" target="_blank">Get template</a>
   </div>
 
   <!-- HERO SECTION -->
   <section class="hero-section">
-    <!-- Infinite Text Ticker -->
     <div class="ticker-wrap">
       <div class="ticker">
-        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;</div>
-        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;</div>
-        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;</div>
-        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;</div>
+        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;&nbsp;</div>
+        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;&nbsp;</div>
+        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;&nbsp;</div>
+        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;&nbsp;</div>
+        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;&nbsp;</div>
+        <div class="ticker-item">Unlock the Power of Technology &nbsp;&bull;&nbsp;&nbsp;</div>
       </div>
     </div>
 
-    <div class="container hero-content">
+    <div class="container hero-content scroll-reveal delay-1">
       <p class="hero-badge">Move faster. Think bigger.</p>
       <h1 class="hero-title">Transforming businesses with cutting-edge solutions</h1>
       <p class="hero-subtitle">A technology company developing cutting-edge software solutions to streamline your workflows and scale your growth.</p>
       
       <div class="hero-buttons">
-        <a href="#about" class="btn btn-secondary">Learn more</a>
+        <a href="#solutions" class="btn btn-secondary">Learn more</a>
       </div>
 
-      <!-- Social Proof Group -->
+      <!-- Overlapping Social Proof Group -->
       <div class="social-proof">
         <div class="avatar-group">
-          <!-- Placeholder SVG Avatars -->
+          <span class="avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100')"></span>
           <span class="avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100')"></span>
-          <span class="avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100')"></span>
           <span class="avatar" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100&h=100')"></span>
         </div>
         <div class="proof-text">
-          <strong>100k+ Happy Customers</strong>
-          <span>Trusted by some of the biggest companies globally</span>
+          <strong>100k Happy Customers</strong>
+          <span>Trusted by some of the biggest companies</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- IN NUMBERS SECTION -->
-  <section id="about" class="numbers-section container">
+  <!-- STATS / IN NUMBERS SECTION -->
+  <section id="about" class="numbers-section container scroll-reveal delay-1">
     <div class="section-header">
       <span class="badge">[ IN NUMBER ]</span>
       <p class="section-description">At Cyntch, we are dedicated to providing innovative software solutions and IT services that empower businesses.</p>
@@ -104,33 +1206,81 @@
     </div>
   </section>
 
-  <!-- SOLUTIONS SECTION -->
-  <section class="solutions-section container">
-    <div class="section-header">
-      <span class="badge">[ SOLUTIONS ]</span>
-      <h2 class="section-title">Innovative Problem-Solving for Your Business Needs</h2>
-    </div>
-    <div class="cards-grid">
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>Focusing on Your Business</h3>
-        <p>We start by gaining a deep understanding of your business goals to construct highly relevant workflows.</p>
+  <!-- SOLUTIONS SECTION (WITH MOCK PREVIEW CARD) -->
+  <section id="solutions" class="solutions-section container scroll-reveal delay-1">
+    <div class="solutions-layout">
+      <div class="section-header">
+        <span class="badge">[ SOLUTIONS ]</span>
+        <h2 class="section-title">Innovative Problem-Solving for Your Business Needs</h2>
       </div>
-      <div class="card">
-        <div class="card-icon">⚙️</div>
-        <h3>Developing Tailored Solutions</h3>
-        <p>Next, our team of seasoned tech experts develops customized tools tailored entirely around your environment.</p>
+
+      <div class="cards-grid">
+        <div class="card scroll-reveal delay-1">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h3>Focus on Your Business</h3>
+          <p>We start by gaining a deep understanding of your business goals.</p>
+        </div>
+        <div class="card scroll-reveal delay-2">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <h3>Developing Tailored Solutions</h3>
+          <p>Next, our team of experts develops tailored solutions.</p>
+        </div>
+        <div class="card scroll-reveal delay-3">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zM6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/>
+            </svg>
+          </div>
+          <h3>Scalability and Innovation</h3>
+          <p>We leverage cutting-edge technology to implement seamlessly.</p>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">🚀</div>
-        <h3>Scalability and Innovation</h3>
-        <p>We leverage cutting-edge architectures to implement products that seamlessly grow alongside your demands.</p>
+
+      <!-- Live Dashboard Graphic -->
+      <div class="dashboard-graphic scroll-reveal delay-1">
+        <div class="db-header">
+          <div class="db-dots">
+            <div class="db-dot"></div>
+            <div class="db-dot"></div>
+            <div class="db-dot"></div>
+          </div>
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Cyntch Dashboard v2.4</div>
+        </div>
+        <div class="db-body">
+          <div class="db-sidebar">
+            <div class="db-side-item active"></div>
+            <div class="db-side-item"></div>
+            <div class="db-side-item"></div>
+            <div class="db-side-item"></div>
+          </div>
+          <div class="db-content">
+            <div class="db-widget">
+              <span style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Productivity Increase</span>
+              <strong style="font-size: 24px;">+80%</strong>
+              <div class="db-widget-bar"><div class="db-widget-bar fill"></div></div>
+            </div>
+            <div class="db-widget">
+              <span style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Operational Workflows</span>
+              <strong style="font-size: 24px;">Active</strong>
+              <div style="display: flex; gap: 4px;"><span style="width: 6px; height: 6px; background: #10b981; border-radius: 50%;"></span><span style="font-size: 10px; color: #10b981;">Fully Optimized</span></div>
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
   </section>
 
-  <!-- INNOVATE & WHY US SECTIONS -->
-  <section class="split-section container">
+  <!-- INNOVATE & WHY US SPLIT -->
+  <section class="split-section container scroll-reveal delay-1">
     <div class="split-column">
       <span class="badge">[ INNOVATE ]</span>
       <h2 class="split-title">Transforming Businesses with Cutting-Edge Solutions</h2>
@@ -140,51 +1290,163 @@
       <span class="badge">[ WHY US ]</span>
       <div class="accordion-info">
         <div class="info-item">
-          <h4>Transforming with Cutting-Edge Solutions</h4>
-          <p>We blend modern technology with data-driven strategies for actionable insights and an Increase in overall Productivity.</p>
+          <div class="info-header">
+            <span class="info-number">01</span>
+            <h4>Transforming with Cutting-Edge Solutions</h4>
+          </div>
+          <p>We blend technology with strategies for actionable insights and Increase in Productivity.</p>
         </div>
         <div class="info-item">
-          <h4>Trusted By Industry Leaders Across Sectors</h4>
-          <p>At Cyntch, our expertise and customer focus set us apart. Partnering with Cyntch means gaining direct access to elite software engineering expertise.</p>
+          <div class="info-header">
+            <span class="info-number">02</span>
+            <h4>Trusted By Industry Leaders Across Sectors</h4>
+          </div>
+          <p>At Cyntch, our expertise and customer focus set us apart. Cyntch means accessing cutting-edge AI expertise.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- OUR SERVICES SECTION -->
-  <section id="services" class="services-section container">
+  <section id="services" class="services-section container scroll-reveal delay-1">
     <div class="section-header">
       <h2 class="section-title">Our Services</h2>
     </div>
     <div class="services-grid">
-      <div class="service-card" style="background-image: linear-gradient(180deg, rgba(8,11,13,0) 0%, rgba(8,11,13,0.9) 100%), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80')">
+      <div class="service-card" style="background-image: linear-gradient(180deg, rgba(8,11,13,0) 0%, rgba(8,11,13,0.95) 100%), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80')">
         <h3>Innovative Solutions</h3>
       </div>
-      <div class="service-card" style="background-image: linear-gradient(180deg, rgba(8,11,13,0) 0%, rgba(8,11,13,0.9) 100%), url('https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80')">
+      <div class="service-card" style="background-image: linear-gradient(180deg, rgba(8,11,13,0) 0%, rgba(8,11,13,0.95) 100%), url('https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80')">
         <h3>Artificial Intelligence</h3>
       </div>
-      <div class="service-card" style="background-image: linear-gradient(180deg, rgba(8,11,13,0) 0%, rgba(8,11,13,0.9) 100%), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80')">
+      <div class="service-card" style="background-image: linear-gradient(180deg, rgba(8,11,13,0) 0%, rgba(8,11,13,0.95) 100%), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80')">
         <h3>Hardware Solution</h3>
       </div>
-      <div class="service-card" style="background-image: linear-gradient(180deg, rgba(8,11,13,0) 0%, rgba(8,11,13,0.9) 100%), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80')">
+      <div class="service-card" style="background-image: linear-gradient(180deg, rgba(8,11,13,0) 0%, rgba(8,11,13,0.95) 100%), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80')">
         <h3>Software Solution</h3>
       </div>
     </div>
   </section>
 
+  <!-- DYNAMIC PRICING SECTION -->
+  <section id="pricing" class="pricing-section container scroll-reveal delay-1">
+    <div class="section-header">
+      <span class="badge">[ SIMPLE PRICING ]</span>
+      <h2 class="section-title">Straightforward Costing designed to grow</h2>
+      <p style="color: var(--text-secondary); margin-top: 12px; font-size: 16px;">At Cyntch, we specialize in providing innovative software solutions and IT services.</p>
+    </div>
+
+    <!-- Monthly / Yearly Toggler -->
+    <div class="pricing-toggle-wrap">
+      <span class="toggle-label id-monthly active">Monthly</span>
+      <div class="pricing-switch" id="pricing-switcher">
+        <div class="pricing-switch-handle"></div>
+      </div>
+      <span class="toggle-label id-yearly">Yearly</span>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Tier 1: Basic -->
+      <div class="pricing-card">
+        <div class="pricing-header">
+          <h4>Basic</h4>
+          <p>Suitable for individuals</p>
+          <div class="pricing-price" id="price-basic">$39<span>/mo</span></div>
+        </div>
+        <ul class="pricing-features">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            All analytics features
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Up to 250,000 tracked visits
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Normal support
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Up to 3 team members
+          </li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Get started</a>
+      </div>
+
+      <!-- Tier 2: Pro -->
+      <div class="pricing-card popular">
+        <span class="pricing-tag">Popular</span>
+        <div class="pricing-header">
+          <h4>Pro</h4>
+          <p>Suitable for teams size of 2-49 people</p>
+          <div class="pricing-price" id="price-pro">$79<span>/mo</span></div>
+        </div>
+        <ul class="pricing-features">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            All analytics features
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Up to 1,000,000 tracked visits
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Premium support
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Up to 10 team members
+          </li>
+        </ul>
+        <a href="#" class="btn btn-primary">Get started</a>
+      </div>
+
+      <!-- Tier 3: Enterprise -->
+      <div class="pricing-card">
+        <div class="pricing-header">
+          <h4>Enterprise</h4>
+          <p>Suitable for teams size of 50+ people</p>
+          <div class="pricing-price" id="price-enterprise">$149<span>/mo</span></div>
+        </div>
+        <ul class="pricing-features">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            All analytics features
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Up to 5,000,000 tracked visits
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Dedicated support
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Up to 50 team members
+          </li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Get started</a>
+      </div>
+    </div>
+  </section>
+
   <!-- REVIEWS SECTION -->
-  <section class="reviews-section container">
+  <section class="reviews-section container scroll-reveal delay-1">
     <div class="section-header">
       <span class="badge">[ REVIEWS ]</span>
       <h2 class="section-title">Real Results, Trusted Partnerships</h2>
     </div>
+    
     <div class="reviews-layout">
-      <!-- Main Featured Review -->
+      <!-- Main Static Highlight Card -->
       <div class="featured-review">
         <span class="quote-icon">“</span>
         <p class="quote-text">From the first call to final delivery, the process was seamless. We now have a brand that truly reflects who we are</p>
         <div class="reviewer-meta">
-          <div class="reviewer-avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100')"></div>
+          <div class="reviewer-avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100')"></div>
           <div>
             <h4>Mike Green</h4>
             <p>Director of Operations</p>
@@ -192,30 +1454,71 @@
         </div>
       </div>
 
-      <!-- Scrollable Grid of Mini Reviews -->
-      <div class="reviews-grid">
-        <div class="review-card">
-          <p>Cyntch has been an amazing investment partner for me. Their custom enterprise tools are robust and clean.</p>
-          <h5>@Yury</h5>
+      <!-- Endless Rolling Testimonial Tracks -->
+      <div class="reviews-marquee-container">
+        <!-- Track 1: Sliding Left -->
+        <div class="marquee-track track-left">
+          <div class="review-card">
+            <p>"Cyntch has been an amazing investment partner for me. Their investment management services are easy to use."</p>
+            <h5>@Yury</h5>
+          </div>
+          <div class="review-card">
+            <p>"I never realized how much money I was wasting on unnecessary expenses until I started using Cyntch."</p>
+            <h5>@Aryan</h5>
+          </div>
+          <div class="review-card">
+            <p>"Such a clean, beautiful template and so easy to customise. Would highly recommend."</p>
+            <h5>@Arim</h5>
+          </div>
+          <div class="review-card">
+            <p>"I accidentally stumbled upon Snitcher while looking for another tool but I am very glad I did!"</p>
+            <h5>@Sam</h5>
+          </div>
+          <!-- Duplicated for Infinite Loop Loop -->
+          <div class="review-card">
+            <p>"Cyntch has been an amazing investment partner for me. Their investment management services are easy to use."</p>
+            <h5>@Yury</h5>
+          </div>
+          <div class="review-card">
+            <p>"I never realized how much money I was wasting on unnecessary expenses until I started using Cyntch."</p>
+            <h5>@Aryan</h5>
+          </div>
         </div>
-        <div class="review-card">
-          <p>I never realized how much time we were wasting on manual workflows until we utilized Cyntch's automations.</p>
-          <h5>@Aryan</h5>
-        </div>
-        <div class="review-card">
-          <p>Such a clean, beautiful layout style. Their implementation speed was highly impressive.</p>
-          <h5>@Arim</h5>
-        </div>
-        <div class="review-card">
-          <p>I stumbled upon Cyntch while looking for security integrations, and I am very glad we did.</p>
-          <h5>@Sam</h5>
+
+        <!-- Track 2: Sliding Right -->
+        <div class="marquee-track track-right">
+          <div class="review-card">
+            <p>"Such a clean, beautiful template and so easy to customise. Would highly recommend."</p>
+            <h5>@Arim</h5>
+          </div>
+          <div class="review-card">
+            <p>"I accidentally stumbled upon Snitcher while looking for another tool but I am very glad I did!"</p>
+            <h5>@Sam</h5>
+          </div>
+          <div class="review-card">
+            <p>"Cyntch has been an amazing investment partner for me. Their investment management services are easy to use."</p>
+            <h5>@Yury</h5>
+          </div>
+          <div class="review-card">
+            <p>"I never realized how much money I was wasting on unnecessary expenses until I started using Cyntch."</p>
+            <h5>@Aryan</h5>
+          </div>
+          <!-- Duplicated for Loop -->
+          <div class="review-card">
+            <p>"Such a clean, beautiful template and so easy to customise. Would highly recommend."</p>
+            <h5>@Arim</h5>
+          </div>
+          <div class="review-card">
+            <p>"I accidentally stumbled upon Snitcher while looking for another tool but I am very glad I did!"</p>
+            <h5>@Sam</h5>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FAQ SECTION -->
-  <section class="faq-section container">
+  <section id="faq" class="faq-section container scroll-reveal delay-1">
     <div class="section-header">
       <span class="badge">[ FREQUENTLY ASKED QUESTION ]</span>
       <h2 class="section-title">Faqs</h2>
@@ -224,53 +1527,72 @@
       <div class="faq-item">
         <button class="faq-question">Template styling and Support <span class="arrow"></span></button>
         <div class="faq-answer">
-          <p>Our support team is available to assist you in editing color values, responsive grids, and setting up customized elements to fit your operational style.</p>
+          <p>Our support team is here 24/7 to help you customize the template's layout, colors, and typography to match your brand guidelines.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question">Troubleshooting Animation Issues <span class="arrow"></span></button>
         <div class="faq-answer">
-          <p>If animations behave unexpectedly, ensure your local hardware acceleration is active and check CSS styles for nested structural conflicts.</p>
+          <p>If you encounter any animation hiccups, verify that you're using compatible browser versions and check our animation documentation for tips.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question">How to choose the right font license for Framer <span class="arrow"></span></button>
         <div class="faq-answer">
-          <p>Depending on your corporate size and web page impressions, ensure you select an appropriate Web font license for external embedding.</p>
+          <p>Choose your font license based on your website's traffic or installation requirements. Custom Web Fonts require a Web license.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question">Is my personal information secure? <span class="arrow"></span></button>
         <div class="faq-answer">
-          <p>Absolutely. We handle data using top-tier encryption protocols and never sell user insights to external brokers.</p>
+          <p>Yes. We take security seriously and utilize enterprise-grade encryption to safeguard all your files and personal details.</p>
         </div>
       </div>
       <div class="faq-item">
         <button class="faq-question">What does the Free plan include? <span class="arrow"></span></button>
         <div class="faq-answer">
-          <p>Our baseline setups include visual blocks, public grid sections, and automated documentation access to kickstart your project.</p>
+          <p>Our free plan gives you access to core page designs and standard layouts to help you launch your initial online presence.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Is this Framer template responsive? <span class="arrow"></span></button>
+        <div class="faq-answer">
+          <p>Absolutely! Every page and element is built with responsive layouts that adapt to desktop, tablet, and mobile devices.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">How to report an issue <span class="arrow"></span></button>
+        <div class="faq-answer">
+          <p>You can report any issues by using our support contact form or opening a ticket directly in our support workspace portal.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">How to create a remix link <span class="arrow"></span></button>
+        <div class="faq-answer">
+          <p>Simply click on the remix template link on Framer to duplicate the workspace directly into your own Framer dashboard.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CALL TO ACTION / TRANSITION TICKER -->
+  <!-- CTA CALOUT PANEL -->
   <section class="cta-section">
     <div class="ticker-wrap border-ticker">
       <div class="ticker fast-ticker">
-        <div class="ticker-item">Smart Integration &nbsp;&bull;&nbsp; Workflow Automation &nbsp;&bull;&nbsp; AI Development &nbsp;&bull;&nbsp;</div>
-        <div class="ticker-item">Smart Integration &nbsp;&bull;&nbsp; Workflow Automation &nbsp;&bull;&nbsp; AI Development &nbsp;&bull;&nbsp;</div>
-        <div class="ticker-item">Smart Integration &nbsp;&bull;&nbsp; Workflow Automation &nbsp;&bull;&nbsp; AI Development &nbsp;&bull;&nbsp;</div>
+        <div class="ticker-item">Smart Integration &nbsp;&bull;&nbsp; Workflow Automation &nbsp;&bull;&nbsp; AI Development &nbsp;&bull;&nbsp;&nbsp;</div>
+        <div class="ticker-item">Smart Integration &nbsp;&bull;&nbsp; Workflow Automation &nbsp;&bull;&nbsp; AI Development &nbsp;&bull;&nbsp;&nbsp;</div>
+        <div class="ticker-item">Smart Integration &nbsp;&bull;&nbsp; Workflow Automation &nbsp;&bull;&nbsp; AI Development &nbsp;&bull;&nbsp;&nbsp;</div>
+        <div class="ticker-item">Smart Integration &nbsp;&bull;&nbsp; Workflow Automation &nbsp;&bull;&nbsp; AI Development &nbsp;&bull;&nbsp;&nbsp;</div>
       </div>
     </div>
-    <div class="container cta-box">
+    <div class="container cta-box scroll-reveal delay-1">
       <h2>Book a call today and start automating</h2>
-      <a href="#contact" class="btn btn-primary lg-btn">Book a free call</a>
+      <a href="https://framer.com" class="btn btn-primary lg-btn">Book a free call</a>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer id="contact" class="footer">
+  <footer class="footer">
     <div class="container footer-grid">
       <div class="footer-brand">
         <h2 class="logo">CYNTCH</h2>
@@ -280,8 +1602,8 @@
         <h4>Menu</h4>
         <a href="#about">About</a>
         <a href="#services">Services</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#contact">Contact</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#faq">FAQ</a>
       </div>
       <div class="footer-links">
         <h4>Socials</h4>
@@ -297,6 +1619,111 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // --- MOBILE DRAWER TOGGLE ---
+      const menuToggle = document.querySelector('.menu-toggle');
+      const mobileMenu = document.querySelector('.mobile-menu');
+
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', () => {
+          mobileMenu.classList.toggle('active');
+          menuToggle.classList.toggle('active');
+        });
+
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+          });
+        });
+      }
+
+      // --- STAGGERED SCROLL REVEAL (Intersection Observer) ---
+      const revealElements = document.querySelectorAll('.scroll-reveal');
+      
+      const revealOnScroll = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.05,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      revealElements.forEach(el => {
+        revealOnScroll.observe(el);
+      });
+
+      // --- DYNAMIC PRICING SWITCHER LOGIC ---
+      const pricingSwitch = document.getElementById('pricing-switcher');
+      const labelMonthly = document.querySelector('.id-monthly');
+      const labelYearly = document.querySelector('.id-yearly');
+      
+      const priceBasic = document.getElementById('price-basic');
+      const pricePro = document.getElementById('price-pro');
+      const priceEnterprise = document.getElementById('price-enterprise');
+
+      // Price Tiers Configuration (Monthly vs Yearly)
+      const prices = {
+        monthly: { basic: '$39<span>/mo</span>', pro: '$79<span>/mo</span>', enterprise: '$149<span>/mo</span>' },
+        yearly: { basic: '$99<span>/yr</span>', pro: '$199<span>/yr</span>', enterprise: '$399<span>/yr</span>' }
+      };
+
+      if (pricingSwitch) {
+        pricingSwitch.addEventListener('click', () => {
+          const isYearly = pricingSwitch.classList.toggle('yearly-active');
+          
+          if (isYearly) {
+            labelYearly.classList.add('active');
+            labelMonthly.classList.remove('active');
+            priceBasic.innerHTML = prices.yearly.basic;
+            pricePro.innerHTML = prices.yearly.pro;
+            priceEnterprise.innerHTML = prices.yearly.enterprise;
+          } else {
+            labelMonthly.classList.add('active');
+            labelYearly.classList.remove('active');
+            priceBasic.innerHTML = prices.monthly.basic;
+            pricePro.innerHTML = prices.monthly.pro;
+            priceEnterprise.innerHTML = prices.monthly.enterprise;
+          }
+        });
+      }
+
+      // --- FAQ ACCORDION TRANSITION HANDLER ---
+      const faqItems = document.querySelectorAll('.faq-item');
+
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+
+        if (question && answer) {
+          question.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+
+            faqItems.forEach(innerItem => {
+              innerItem.classList.remove('active');
+              innerItem.querySelector('.faq-answer').style.maxHeight = null;
+            });
+
+            if (!isActive) {
+              item.classList.add('active');
+              answer.style.maxHeight = answer.scrollHeight + 'px';
+            } else {
+              item.classList.remove('active');
+              answer.style.maxHeight = null;
+            }
+          });
+        }
+      });
+
+    });
+  </script>
 </body>
 </html>
